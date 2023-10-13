@@ -4,6 +4,8 @@
  */
 package ejercicioyoutube;
 
+import java.util.Random;
+
 /**
  *
  * @author juan
@@ -51,12 +53,15 @@ public class Video {
     
     public Video(int numVideo, boolean rata){
         
+        Random random = new Random();
+        
         tituloVideo = "dwwadawda";
-        segundos = 4211;
+        segundos = random.nextInt(0, 10000000);
         tiempo = secondsToTime(segundos);
-        visuVideo = 2142141;
+        visuVideo = random.nextInt(0, 10000000);
         idVideoUrl =  getVideoId2();
-        videoEarn = visuVideo/1000*CPM;
+        videoEarn = (visuVideo/1000)*CPM;
+        videoNum = numVideo;
     
     }
     
@@ -65,9 +70,9 @@ public class Video {
                 
         int horas = seconds / 3600;
         int minutos = (seconds%3600) / 60;
-        int segundos = (seconds & 60);
+        int segundos2 = (seconds & 60);
         
-        String time = String.format("%02d:%02d:%02d", horas, minutos, segundos);
+        String time = String.format("%02d:%02d:%02d", horas, minutos, segundos2);
                 
         return time;
     }

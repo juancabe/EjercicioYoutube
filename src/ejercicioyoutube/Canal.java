@@ -16,9 +16,9 @@ public class Canal {
     private int videoIdLen;
     private int videoEarnLen;
 
-    private String nombreCanal;
-    private int numVideos;
-    private Video[] arrayVideos;
+    private String nombreCanal = "";
+    private int numVideos = 0;
+    private Video[] arrayVideos = null;
 
     public Canal() {
         this.numVideos = ParseErrorSelect.getInt(true, false,
@@ -79,69 +79,30 @@ public class Canal {
 
     String getCanalString() {
         
-        /*
-        
-       | Video %{videoNumLen}{videoNum} | %{visuVideoLen}{visuVideo} | %{videoTiempoLen}{videoTiempo} | %{videoEarnLen}{videoEarn} € | 
-       
-        */
-        
         this.assignVariableLen();
         
-        String canalString = "";
-        String lineaEstandar = String.format("| Video %" + videoNumLen + "d | %" + visuVideoLen + "d | %" + videoTiempoLen + "s | %" + videoEarnLen + ".2f € |", 1, 1, "10:10:10", 1.1);
+        float ingresosTotales = 0f;
+        
+        String lineaEstandar = String.format("| Video %" + videoNumLen + "d | %" + visuVideoLen + "d | %" + videoTiempoLen + "s | %" + videoIdLen + "s | %" + videoEarnLen + ".2f |", 1, 1, "10:10:10", "Sagg08DrO5U", 1.1);
         int longLinea = lineaEstandar.length();
         String separadorLinea = "|"+"-".repeat(longLinea-2)+"|\n";
-        canalString = separadorLinea;
-        canalString += "| Análisis preliminar del canal: " + nombreCanal + "\n";
+        String canalString = separadorLinea;
+        canalString += "| Analisis preliminar del canal: " + nombreCanal + " ".repeat(longLinea-("| Analisis preliminar del canal: " + nombreCanal).length()-1) +  "|\n";
         canalString += separadorLinea;
-        canalString += "| Video " +" ".repeat(videoNumLen) + " | " + " ".repeat(visuVideoLen -"Visualizaciones".length()) + "Visualizaciones | " + " ".repeat(videoTiempoLen -"Duración".length()) + "Duración | " + " ".repeat(videoIdLen -"Id video URL".length()) + "Id video URL | " + " ".repeat(videoEarnLen -"Ingresos previstos".length()) + "Ingresos previstos|\n";
+        canalString += "| Video " +" ".repeat(videoNumLen) + " | " + " ".repeat(visuVideoLen -"Visualizaciones".length()) + "Visualizaciones | " + " ".repeat(videoTiempoLen -"Duracion".length()) + "Duracion | " + " ".repeat(videoIdLen -"Id video URL".length()) + "Id video URL | " + " ".repeat(videoEarnLen -"Ingresos previstos".length()) + "Ingresos previstos |\n";
         canalString += separadorLinea;
         
-        int videoNumLenFormatSpace, visuVideoLenFormatSpace, videoTiempoLenFormatSpace, videoIdLenFormatSpace, videoEarnLenFormatSpace;
-        String videoNumLenFormatSpaceStr, visuVideoLenFormatSpaceStr, videoTiempoLenFormatSpaceStr, videoIdLenFormatSpaceStr, videoEarnLenFormatSpaceStr;
         
         for(Video video:arrayVideos){
-            if((videoNumLenFormatSpace = (videoNumLen - Integer.toString(video.getVideoNum()).length())) == 0){
-                videoNumLenFormatSpaceStr = "";
-            }
-            else{
-                videoNumLenFormatSpaceStr = Integer.toString(videoNumLenFormatSpace);
-            }
             
-            if((visuVideoLenFormatSpace = (visuVideoLen - Integer.toString(video.getVisuVideo()).length())) == 0){
-                visuVideoLenFormatSpaceStr = "";
-            }
-            else{
-                visuVideoLenFormatSpaceStr = Integer.toString(visuVideoLenFormatSpace);
-            }
-
-            if((videoTiempoLenFormatSpace = (videoTiempoLen - video.getTiempo().length())) == 0){
-                videoTiempoLenFormatSpaceStr = "";
-            }
-            else{
-                videoTiempoLenFormatSpaceStr = Integer.toString(videoTiempoLenFormatSpace);
-            }
-
-            if((videoIdLenFormatSpace = (videoIdLen - video.getIdVideoUrl().length())) == 0){
-                videoIdLenFormatSpaceStr = "";
-            }
-            else{
-                videoIdLenFormatSpaceStr = Integer.toString(videoIdLenFormatSpace);
-            }
-
-            if((videoEarnLenFormatSpace = (videoEarnLen - Float.toString(video.getVideoEarn()).length())) == 0){
-                videoEarnLenFormatSpaceStr = "";
-            }
-            else{
-                videoEarnLenFormatSpaceStr = Integer.toString(videoEarnLenFormatSpace);
-            }
-
-            
-
-            
-            
-            canalString += String.format("| Video %"+videoNumLenFormatSpaceStr+"d | %"+visuVideoLenFormatSpaceStr+"d | %"+ videoTiempoLenFormatSpaceStr + "s | %"+videoIdLenFormatSpaceStr+"s | %"+videoEarnLenFormatSpaceStr+".2f € |", video.getVideoNum(), video.getVisuVideo(), video.getTiempo(), video.getIdVideoUrl(), video.getVideoEarn());
+            canalString += String.format("| Video %" + videoNumLen +"d | %" + visuVideoLen +"d | %" + videoTiempoLen +"s | %" + videoIdLen +"s | %" + videoEarnLen +".2f |\n", video.getVideoNum(),video.getVisuVideo(), video.getTiempo(), video.getIdVideoUrl(), video.getVideoEarn());
+            ingresosTotales += video.getVideoEarn();
         }
+        
+        canalString += separadorLinea;
+        canalString += "| Ingresos totales del canal: " + " ".repeat(longLinea - "| Ingresos totales del canal: ".length() - Float.toString(ingresosTotales).length() - 2) + ingresosTotales +" |\n";
+        canalString += "| Ingresos medios por video: " + " ".repeat(longLinea - "| Ingresos medios por video: ".length() - Float.toString(ingresosTotales/numVideos).length() - 2) + ingresosTotales/numVideos +" |\n";
+        canalString += separadorLinea;
         
         
         return canalString;
