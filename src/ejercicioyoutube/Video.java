@@ -1,17 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ejercicioyoutube;
-
-import java.util.Random;
 
 /**
  *
  * @author juan
  */
 public class Video {
-    
+
     static private float CPM = 1.7f;
 
     public static float getCPM() {
@@ -36,71 +30,53 @@ public class Video {
     public void setVideoNum(int videoNum) {
         this.videoNum = videoNum;
     }
-    
-    public Video(int numVideo){
-        
+
+    public Video(int numVideo) {
+
         tituloVideo = ParseErrorSelect.getString(true, true,
                 1, 70, "Introduzca el titulo: ");
         segundos = ParseErrorSelect.getInt(true, false,
-                0, 0, "Introduza la duración de su video en segundos: ");
+                0, 0, "Introduza la duracion de su video en segundos: ");
         tiempo = secondsToTime(segundos);
         visuVideo = ParseErrorSelect.getInt(true, false,
                 0, 0, "Introduza las visualizaciones de su video: ");
-        idVideoUrl =  getVideoId();
-        videoEarn = visuVideo/1000*CPM;
-    
+        idVideoUrl = getVideoId();
+        videoEarn = visuVideo / 1000 * CPM;
+        videoNum = numVideo + 1;
+
     }
-    
-    public Video(int numVideo, boolean rata){
-        
-        Random random = new Random();
-        
-        tituloVideo = "dwwadawda";
-        segundos = random.nextInt(0, 10000000);
-        tiempo = secondsToTime(segundos);
-        visuVideo = random.nextInt(0, 10000000);
-        idVideoUrl =  getVideoId2();
-        videoEarn = (visuVideo/1000)*CPM;
-        videoNum = numVideo;
-    
-    }
-    
-    
-    private String secondsToTime(int seconds){
-                
+
+    private String secondsToTime(int seconds) {
+
         int horas = seconds / 3600;
-        int minutos = (seconds%3600) / 60;
+        int minutos = (seconds % 3600) / 60;
         int segundos2 = (seconds & 60);
-        
+
         String time = String.format("%02d:%02d:%02d", horas, minutos, segundos2);
-                
+
         return time;
     }
-    
-    private String getVideoId(){
+
+    private String getVideoId() {
         boolean exceptionDetected;
         String urlInput = "";
-        do{
-            try{
+        do {
+            try {
                 exceptionDetected = false;
                 urlInput = ParseErrorSelect.getString(true, true, 43, 43,
                         "Introduzca la url del video: ");
                 urlInput = urlInput.split("v=")[1];
-                if(urlInput.length() <= 0){
+                if (urlInput.length() <= 0) {
                     System.out.println("Url inválida.");
                     exceptionDetected = true;
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.err.println("Error en la lectura del URL, inténtelo de nuevo.");
                 exceptionDetected = true;
             }
-        }while(exceptionDetected);
-        
+        } while (exceptionDetected);
+
         return urlInput;
-    }
-    
-    private String getVideoId2(){
-        return "Sagg08DrO5U";
     }
 
     public String getTituloVideo() {
@@ -150,5 +126,5 @@ public class Video {
     public void setVideoEarn(float videoEarn) {
         this.videoEarn = videoEarn;
     }
-    
+
 }
