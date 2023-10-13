@@ -2,7 +2,7 @@ package ejercicioyoutube;
 
 /**
  *
- * @author juan
+ * @author juan calzada bernal
  */
 public class Video {
 
