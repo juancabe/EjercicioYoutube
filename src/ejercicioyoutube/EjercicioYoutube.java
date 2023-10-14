@@ -11,7 +11,6 @@ public class EjercicioYoutube {
         Canal canalYoutube = new Canal();
         canalYoutube.loadCanal();
         System.out.print(canalYoutube.getCanalString());
-        System.out.println("Parada");
         
     }
 
